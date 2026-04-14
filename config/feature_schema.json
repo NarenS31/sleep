@@ -1,0 +1,96 @@
+{
+  "quantitative_features": {
+    "total_sleep_hours": {
+      "label": "Total sleep duration (hours)",
+      "min": 3.0,
+      "max": 10.0,
+      "direction": "higher_better",
+      "weight": 0.18
+    },
+    "sleep_efficiency_pct": {
+      "label": "Sleep efficiency (%)",
+      "min": 60.0,
+      "max": 100.0,
+      "direction": "higher_better",
+      "weight": 0.14
+    },
+    "interruptions": {
+      "label": "Nighttime interruptions",
+      "min": 0.0,
+      "max": 8.0,
+      "direction": "lower_better",
+      "weight": 0.10
+    },
+    "sleep_onset_latency_min": {
+      "label": "Sleep onset latency (minutes)",
+      "min": 0.0,
+      "max": 90.0,
+      "direction": "lower_better",
+      "weight": 0.10
+    },
+    "wake_variability_min": {
+      "label": "Wake time variability (minutes)",
+      "min": 0.0,
+      "max": 180.0,
+      "direction": "lower_better",
+      "weight": 0.08
+    },
+    "bedtime_variability_min": {
+      "label": "Bedtime variability (minutes)",
+      "min": 0.0,
+      "max": 180.0,
+      "direction": "lower_better",
+      "weight": 0.08
+    }
+  },
+  "qualitative_features": {
+    "perceived_stress": {
+      "label": "How stressed are you?",
+      "direction": "lower_better",
+      "weight": 0.12,
+      "scale": {
+        "not_at_all": 1,
+        "a_little": 2,
+        "moderately": 3,
+        "very": 4,
+        "extremely": 5
+      }
+    },
+    "morning_mood": {
+      "label": "How rested do you feel when you wake up?",
+      "direction": "higher_better",
+      "weight": 0.10,
+      "scale": {
+        "awful": 1,
+        "poor": 2,
+        "okay": 3,
+        "good": 4,
+        "excellent": 5
+      }
+    },
+    "daytime_sleepiness": {
+      "label": "How sleepy are you during the day?",
+      "direction": "lower_better",
+      "weight": 0.06,
+      "scale": {
+        "never": 1,
+        "rarely": 2,
+        "sometimes": 3,
+        "often": 4,
+        "constantly": 5
+      }
+    },
+    "screen_time_before_bed": {
+      "label": "How much screen time did you have before bed?",
+      "direction": "lower_better",
+      "weight": 0.04,
+      "scale": {
+        "none": 1,
+        "brief": 2,
+        "moderate": 3,
+        "heavy": 4,
+        "very_heavy": 5
+      }
+    }
+  }
+}

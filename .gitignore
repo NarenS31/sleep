@@ -1,0 +1,18 @@
+.venv/
+.venv313/
+.cache/
+.mplconfig/
+__pycache__/
+*.pyc
+*.pyo
+*.DS_Store
+
+# Downloaded and raw data
+data/
+physionet.org/files/
+tmp/
+*.hea
+wget-log*
+
+# Generated artifacts
+outputs/

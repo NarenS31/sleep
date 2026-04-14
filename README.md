@@ -48,6 +48,14 @@ This makes the qualitative part of the paper explicit: subjective categories are
 
 ## Run It
 
+Install dependencies for model training/analysis:
+
+```bash
+.venv/bin/pip install -r requirements-train.txt
+```
+
+For serverless/web deployment, keep `requirements.txt` minimal (Lambda size-safe).
+
 Create the sample dataset:
 
 ```bash

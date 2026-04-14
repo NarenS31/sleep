@@ -1,0 +1,6 @@
+[project]
+name = "sleep"
+version = "0.1.0"
+description = "Sleep modeling app and visualization"
+requires-python = ">=3.11"
+dependencies = []

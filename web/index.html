@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sleep Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/web/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="topbar panel">
+      <div>
+        <p class="eyebrow">Sleep Quality Platform</p>
+        <h1>Sleep Modeling Dashboard</h1>
+        <p class="subtitle">Interactive sleep exploration with a clean method overview and focused metric analysis.</p>
+      </div>
+      <div class="control-grid">
+        <label class="control">
+          <span>View</span>
+          <select id="view-select"></select>
+        </label>
+        <label class="control" id="metric-control">
+          <span>Metric</span>
+          <select id="metric-select"></select>
+        </label>
+      </div>
+    </header>
+
+    <main class="content">
+      <section id="overview" class="panel overview hidden"></section>
+      <section id="analysis" class="panel analysis hidden">
+        <div id="plot"></div>
+      </section>
+      <aside class="panel side">
+        <h2>How To Read</h2>
+        <p id="guide-copy"></p>
+        <div class="kpi-row">
+          <div class="kpi">
+            <p>People</p>
+            <strong id="kpi-people">0</strong>
+          </div>
+          <div class="kpi">
+            <p>Metrics</p>
+            <strong id="kpi-metrics">0</strong>
+          </div>
+        </div>
+        <div class="legend-block">
+          <p class="legend-title">Sleep Score Bands</p>
+          <div class="band"><span class="dot bad"></span>Low (0-39)</div>
+          <div class="band"><span class="dot mid"></span>Mid (40-69)</div>
+          <div class="band"><span class="dot good"></span>High (70-100)</div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script type="module" src="/web/app.js"></script>
+</body>
+</html>

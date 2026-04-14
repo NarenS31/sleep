@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+import mimetypes
 from pathlib import Path
 from typing import Iterable
 
 
 ROOT = Path(__file__).resolve().parent
-GRAPH_HTML = ROOT / "outputs" / "sleep_features_3d_connected.html"
+WEB_ROOT = ROOT / "web"
+DEFAULT_HTML = WEB_ROOT / "index.html"
 
 
 def _response(status: str, body: bytes, content_type: str = "text/plain; charset=utf-8"):
@@ -20,15 +22,29 @@ def app(environ, start_response) -> Iterable[bytes]:
     path = environ.get("PATH_INFO", "/")
 
     if path in ("/", "/index", "/index.html"):
-        if GRAPH_HTML.exists():
-            content = GRAPH_HTML.read_bytes()
+        if DEFAULT_HTML.exists():
+            content = DEFAULT_HTML.read_bytes()
             status, headers, body = _response("200 OK", content, "text/html; charset=utf-8")
         else:
-            message = (
-                "Graph file not found. Generate it first with:\n"
-                "python scripts/create_3d_connected_sleep_graph.py\n"
-            ).encode("utf-8")
+            message = b"Dashboard file not found: web/index.html\n"
             status, headers, body = _response("404 Not Found", message)
+        start_response(status, headers)
+        return body
+
+    if path.startswith("/web/"):
+        rel = path.removeprefix("/web/")
+        target = (WEB_ROOT / rel).resolve()
+        if not str(target).startswith(str(WEB_ROOT.resolve())):
+            status, headers, body = _response("403 Forbidden", b"forbidden\n")
+            start_response(status, headers)
+            return body
+        if target.exists() and target.is_file():
+            content = target.read_bytes()
+            content_type = mimetypes.guess_type(str(target))[0] or "application/octet-stream"
+            status, headers, body = _response("200 OK", content, content_type)
+            start_response(status, headers)
+            return body
+        status, headers, body = _response("404 Not Found", b"not found\n")
         start_response(status, headers)
         return body
 

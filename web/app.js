@@ -46,6 +46,7 @@ function buildSelectors() {
   metricSelect.innerHTML = "";
 
   viewSelect.add(new Option("Method Overview", "overview"));
+  viewSelect.add(new Option("All Metrics (Cone)", "all"));
   viewSelect.add(new Option("Focused Metric", "metric"));
   metrics.forEach((m) => metricSelect.add(new Option(m.label, m.id)));
 }
@@ -166,6 +167,67 @@ function drawMetric(metricId) {
   Plotly.react("plot", traces, layout, { responsive: true, displaylogo: false });
 }
 
+function drawAllMetricsCone() {
+  const golden = Math.PI * (3 - Math.sqrt(5));
+
+  const x = [];
+  const y = [];
+  const z = [];
+  const text = [];
+  const color = [];
+  const size = [];
+
+  for (let metricIndex = 0; metricIndex < metrics.length; metricIndex += 1) {
+    const metric = metrics[metricIndex];
+    const rng = mulberry32(metricIndex + 77);
+    for (let i = 0; i < PEOPLE; i += 1) {
+      const score = Math.round(rng() * 100);
+      const angle = i * golden + metricIndex * 0.72;
+      const coneRadius = ((100 - score) / 100) * 5.4 + metricIndex * 0.07;
+      const drift = (metricIndex - (metrics.length - 1) / 2) * 0.16;
+
+      x.push(Math.cos(angle) * coneRadius + drift);
+      y.push(score + (rng() - 0.5) * 2.4);
+      z.push(Math.sin(angle) * coneRadius + drift);
+      color.push(score);
+      size.push(2.8 + (score / 100) * 1.8);
+      text.push(`Person #${i + 1}<br>${metric.label}<br>Sleep score: ${score}/100`);
+    }
+  }
+
+  const traces = [{
+    type: "scatter3d",
+    mode: "markers",
+    x,
+    y,
+    z,
+    text,
+    hoverinfo: "text",
+    marker: {
+      size,
+      color,
+      colorscale: "Turbo",
+      opacity: 0.8,
+      line: { color: "rgba(255,255,255,0.3)", width: 0.4 },
+      colorbar: { title: "Sleep score" },
+    },
+  }];
+
+  const layout = {
+    margin: { l: 0, r: 0, b: 0, t: 0 },
+    paper_bgcolor: "rgba(0,0,0,0)",
+    scene: {
+      bgcolor: "rgba(0,0,0,0)",
+      xaxis: { title: "Cone Spread X", range: [-8.5, 8.5], color: "#dce9f8" },
+      yaxis: { title: "Sleep Score (0-100)", range: [-5, 105], color: "#dce9f8" },
+      zaxis: { title: "Cone Spread Z", range: [-8.5, 8.5], color: "#dce9f8" },
+      camera: { eye: { x: 1.95, y: 1.05, z: 1.85 } },
+    },
+  };
+
+  Plotly.react("plot", traces, layout, { responsive: true, displaylogo: false });
+}
+
 function setMode(mode) {
   if (mode === "overview") {
     overview.classList.remove("hidden");
@@ -173,6 +235,12 @@ function setMode(mode) {
     metricControl.classList.add("hidden");
     guideCopy.textContent = "Read left to right: problem, core shift, techniques, and outcomes. The cards below explain each node in plain language.";
     renderOverview();
+  } else if (mode === "all") {
+    overview.classList.add("hidden");
+    analysis.classList.remove("hidden");
+    metricControl.classList.add("hidden");
+    guideCopy.textContent = "All metrics are combined into a cone-shaped cloud. Wider base means lower scores; tighter top means higher scores.";
+    drawAllMetricsCone();
   } else {
     overview.classList.add("hidden");
     analysis.classList.remove("hidden");
@@ -194,7 +262,7 @@ function boot() {
     }
   });
 
-  setMode("overview");
+  setMode("all");
 }
 
 boot();

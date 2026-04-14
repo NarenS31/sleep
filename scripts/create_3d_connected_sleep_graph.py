@@ -374,9 +374,12 @@ def main() -> None:
     concept_y: list[float | None] = []
     concept_z: list[float | None] = []
     for left, right in concept_edges:
-        concept_x.extend([float(concept_lookup[left]["x"]), float(concept_lookup[right]["x"]), None])
-        concept_y.extend([float(concept_lookup[left]["y"]), float(concept_lookup[right]["y"]), None])
-        concept_z.extend([float(concept_lookup[left]["z"]), float(concept_lookup[right]["z"]), None])
+        concept_x.extend([float(concept_lookup[left]["x"]),
+                         float(concept_lookup[right]["x"]), None])
+        concept_y.extend([float(concept_lookup[left]["y"]),
+                         float(concept_lookup[right]["y"]), None])
+        concept_z.extend([float(concept_lookup[left]["z"]),
+                         float(concept_lookup[right]["z"]), None])
 
     payload = {
         "title": "Sleep Modeling Story Map (3D)",
